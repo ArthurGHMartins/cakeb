@@ -4,433 +4,399 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bolos | Bauni</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --rose:     #e8b4b8;
-    --rose-dark:#c98a90;
-    --cream:    #fdf8f5;
-    --ivory:    #f5ede6;
-    --warm:     #e8d5c8;
-    --text:     #4a3b35;
-    --muted:    #9c8880;
-    --white:    #fff;
+    --rose:      #e8b4b8;
+    --rose-dark: #c98a90;
+    --cream:     #fdf8f5;
+    --ivory:     #f5ede6;
+    --warm:      #e8d5c8;
+    --text:      #4a3b35;
+    --muted:     #9c8880;
+    --white:     #fff;
+    --gap:       16px;
+    --radius:    4px;
   }
+
+  html { scroll-behavior: smooth; }
 
   body {
     font-family: 'Jost', sans-serif;
     background: var(--cream);
     color: var(--text);
     font-size: 14px;
+    -webkit-font-smoothing: antialiased;
   }
 
   a { text-decoration: none; color: inherit; }
+  img { display: block; max-width: 100%; }
 
-  /* ── TOP BAR ── */
+  /* ─── TOPBAR ─── */
   .topbar {
-    background: var(--rose);
-    text-align: center;
-    padding: 8px;
-    font-size: 12px;
-    letter-spacing: .12em;
+    background: var(--rose-dark);
     color: var(--white);
+    text-align: center;
+    padding: 9px 16px;
+    font-size: 11px;
+    letter-spacing: .12em;
     font-weight: 500;
   }
 
-  /* ── NAVBAR ── */
+  /* ─── NAVBAR ─── */
   .navbar {
     background: var(--white);
     border-bottom: 1px solid #f0e6e0;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 200;
   }
 
-  .nav-top {
+  .nav-main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 60px;
+    padding: 14px 20px;
   }
 
-  .nav-logo img {
-    height: 44px;
-  }
-
-  .nav-logo-text {
+  .nav-logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 400;
     letter-spacing: .08em;
     color: var(--rose-dark);
   }
 
-  .nav-icons {
+  .nav-actions {
     display: flex;
     align-items: center;
-    gap: 22px;
+    gap: 18px;
+  }
+
+  .nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
     color: var(--muted);
-    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
     letter-spacing: .06em;
   }
+  .nav-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 
-  .nav-icon-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    transition: color .2s;
-  }
-  .nav-icon-btn:hover { color: var(--rose-dark); }
-  .nav-icon-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-
-  .nav-menu {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    border-top: 1px solid #f0e6e0;
-    padding: 0 60px;
-  }
-
-  .nav-item {
-    position: relative;
-  }
-
-  .nav-item > a, .nav-item > span {
+  /* Hamburger */
+  .hamburger { flex-direction: column; gap: 5px; }
+  .hamburger span {
     display: block;
-    padding: 14px 20px;
-    font-size: 12px;
-    letter-spacing: .12em;
+    width: 22px;
+    height: 1.5px;
+    background: var(--text);
+    transition: transform .3s, opacity .3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile drawer */
+  .drawer {
+    display: none;
+    flex-direction: column;
+    background: var(--white);
+    border-top: 1px solid #f0e6e0;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .drawer.open { display: flex; }
+
+  .drawer-item {
+    border-bottom: 1px solid #f8f0ec;
+  }
+
+  .drawer-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: .1em;
     text-transform: uppercase;
-    font-weight: 500;
     color: var(--text);
     cursor: pointer;
-    transition: color .2s;
-    white-space: nowrap;
+    font-weight: 500;
   }
+  .drawer-toggle svg { width: 16px; height: 16px; stroke: var(--muted); fill: none; stroke-width: 2; transition: transform .3s; }
+  .drawer-toggle.open svg { transform: rotate(180deg); }
 
-  .nav-item:hover > a,
-  .nav-item:hover > span { color: var(--rose-dark); }
-
-  .nav-item > a::after,
-  .nav-item > span::after {
-    content: '';
-    display: block;
-    height: 2px;
-    background: var(--rose);
-    transform: scaleX(0);
-    transition: transform .25s;
-  }
-  .nav-item:hover > a::after,
-  .nav-item:hover > span::after { transform: scaleX(1); }
-
-  .nav-dropdown {
+  .drawer-sub {
     display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: var(--white);
-    border: 1px solid #f0e6e0;
-    border-top: 2px solid var(--rose);
-    min-width: 180px;
-    padding: 12px 0;
-    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+    flex-direction: column;
+    background: var(--ivory);
+    padding: 4px 0 8px;
   }
-
-  .nav-item:hover .nav-dropdown { display: block; }
-
-  .nav-dropdown a {
-    display: block;
-    padding: 8px 20px;
-    font-size: 12px;
-    letter-spacing: .08em;
+  .drawer-sub.open { display: flex; }
+  .drawer-sub a {
+    padding: 10px 28px;
+    font-size: 13px;
     color: var(--muted);
-    transition: color .2s, padding-left .2s;
+    letter-spacing: .04em;
   }
-  .nav-dropdown a:hover { color: var(--rose-dark); padding-left: 26px; }
+  .drawer-sub a:active { color: var(--rose-dark); }
 
-  /* ── HERO CAROUSEL ── */
+  /* Desktop nav (hidden on mobile) */
+  .nav-desktop { display: none; }
+
+  /* ─── HERO ─── */
   .hero {
     position: relative;
     overflow: hidden;
     background: var(--ivory);
+    touch-action: pan-y;
   }
 
-  .hero-slides {
+  .hero-track {
     display: flex;
-    transition: transform .6s cubic-bezier(.4,0,.2,1);
+    transition: transform .5s cubic-bezier(.4,0,.2,1);
   }
 
   .hero-slide {
     min-width: 100%;
-    height: 480px;
-    background: linear-gradient(135deg, #fce4e8 0%, #f9d5ca 50%, #f0c8bc 100%);
+    min-height: 320px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 48px 24px;
     position: relative;
     overflow: hidden;
   }
 
-  .hero-slide:nth-child(2) {
-    background: linear-gradient(135deg, #fde8d0 0%, #f9d8c5 50%, #f4c5b0 100%);
+  .hero-slide:nth-child(1) { background: linear-gradient(150deg,#fce4e8,#f9d0ca); }
+  .hero-slide:nth-child(2) { background: linear-gradient(150deg,#fde8d0,#f4c5b0); }
+  .hero-slide:nth-child(3) { background: linear-gradient(150deg,#e8ddf5,#c8bcd8); }
+
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: .18;
+    pointer-events: none;
   }
-  .hero-slide:nth-child(3) {
-    background: linear-gradient(135deg, #e8ddf5 0%, #d8cce8 50%, #c8bcd8 100%);
-  }
+  .hero-blob-1 { width: 260px; height: 260px; background: var(--rose); top: -80px; right: -60px; }
+  .hero-blob-2 { width: 180px; height: 180px; background: var(--warm); bottom: -50px; left: 20px; }
 
   .hero-content {
     text-align: center;
+    position: relative;
     z-index: 2;
-    padding: 40px;
   }
 
   .hero-tag {
     display: inline-block;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: .2em;
     text-transform: uppercase;
     color: var(--rose-dark);
-    margin-bottom: 16px;
     font-weight: 500;
+    margin-bottom: 12px;
   }
 
   .hero-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 62px;
+    font-size: 42px;
     font-weight: 300;
     line-height: 1.1;
     color: var(--text);
     margin-bottom: 20px;
-    letter-spacing: .02em;
   }
-
   .hero-title em { font-style: italic; color: var(--rose-dark); }
 
   .hero-cta {
     display: inline-block;
-    padding: 12px 36px;
+    padding: 11px 32px;
     border: 1.5px solid var(--rose-dark);
     font-size: 11px;
-    letter-spacing: .18em;
+    letter-spacing: .16em;
     text-transform: uppercase;
     color: var(--rose-dark);
     font-weight: 500;
-    transition: background .25s, color .25s;
+    transition: background .2s, color .2s;
   }
-  .hero-cta:hover { background: var(--rose-dark); color: var(--white); }
+  .hero-cta:active { background: var(--rose-dark); color: var(--white); }
 
-  .hero-deco {
+  .hero-dots {
     position: absolute;
-    border-radius: 50%;
-    opacity: .15;
-  }
-  .hero-deco-1 { width: 400px; height: 400px; background: var(--rose); top: -100px; right: -80px; }
-  .hero-deco-2 { width: 250px; height: 250px; background: var(--warm); bottom: -60px; left: 80px; }
-
-  .hero-nav {
-    position: absolute;
-    bottom: 22px;
+    bottom: 14px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 8px;
+    gap: 7px;
     z-index: 10;
   }
-
   .hero-dot {
-    width: 8px;
-    height: 8px;
+    width: 7px; height: 7px;
     border-radius: 50%;
     background: rgba(255,255,255,.5);
+    border: none;
     cursor: pointer;
     transition: background .2s, transform .2s;
-    border: none;
   }
   .hero-dot.active { background: var(--white); transform: scale(1.3); }
 
-  .hero-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,.7);
-    border: none;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    transition: background .2s;
-  }
-  .hero-arrow:hover { background: var(--white); }
-  .hero-arrow svg { width: 18px; height: 18px; stroke: var(--text); fill: none; stroke-width: 1.8; }
-  .hero-arrow.prev { left: 20px; }
-  .hero-arrow.next { right: 20px; }
-
-  /* ── MINI BANNERS ── */
+  /* ─── MINI BANNERS ─── */
   .mini-banners {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    padding: 24px 60px;
-    max-width: 1200px;
-    margin: 0 auto;
+    gap: 10px;
+    padding: 16px;
   }
 
   .mini-banner {
-    background: var(--ivory);
+    background: var(--white);
     border: 1px solid #f0e6e0;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
-    transition: transform .25s;
-  }
-  .mini-banner:hover { transform: translateY(-2px); }
-
-  .mini-banner-content {
+    padding: 18px 12px;
     text-align: center;
-    padding: 20px;
+    cursor: pointer;
+    transition: transform .2s;
+    border-radius: var(--radius);
   }
+  .mini-banner:active { transform: scale(.97); }
 
-  .mini-banner-label {
+  .mini-banner-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: .05em;
+    font-size: 17px;
     color: var(--text);
+    margin-bottom: 3px;
   }
-
   .mini-banner-sub {
-    font-size: 11px;
-    letter-spacing: .15em;
+    font-size: 10px;
+    letter-spacing: .1em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-top: 4px;
   }
 
-  /* ── SEARCH BAR ── */
+  /* ─── SEARCH ─── */
   .search-section {
     background: var(--ivory);
-    padding: 28px 60px;
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    justify-content: center;
     border-top: 1px solid #f0e6e0;
     border-bottom: 1px solid #f0e6e0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .search-label {
-    font-size: 13px;
+    font-size: 12px;
     letter-spacing: .08em;
     color: var(--muted);
-    white-space: nowrap;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 8px;
   }
 
   .search-input {
+    flex: 1;
     border: 1px solid var(--warm);
     background: var(--white);
-    padding: 10px 18px;
+    padding: 11px 14px;
     font-family: 'Jost', sans-serif;
     font-size: 13px;
     color: var(--text);
-    width: 300px;
     outline: none;
-    transition: border-color .2s;
+    border-radius: var(--radius);
   }
   .search-input:focus { border-color: var(--rose); }
-
-  .search-select {
-    border: 1px solid var(--warm);
-    background: var(--white);
-    padding: 10px 18px;
-    font-family: 'Jost', sans-serif;
-    font-size: 13px;
-    color: var(--muted);
-    outline: none;
-    cursor: pointer;
-  }
 
   .search-btn {
     background: var(--rose-dark);
     color: var(--white);
     border: none;
-    padding: 11px 28px;
+    padding: 11px 18px;
     font-family: 'Jost', sans-serif;
     font-size: 12px;
-    letter-spacing: .12em;
+    letter-spacing: .1em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: background .2s;
+    border-radius: var(--radius);
+    white-space: nowrap;
   }
-  .search-btn:hover { background: var(--text); }
 
-  /* ── PRODUCT SECTIONS ── */
+  .search-select {
+    width: 100%;
+    border: 1px solid var(--warm);
+    background: var(--white);
+    padding: 11px 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    outline: none;
+    border-radius: var(--radius);
+  }
+
+  /* ─── PRODUCT SECTIONS ─── */
   .products-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 48px 60px;
+    padding: 24px 16px 40px;
   }
 
   .product-section {
-    margin-bottom: 52px;
+    margin-bottom: 40px;
   }
 
   .section-header {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 24px;
-    padding-bottom: 14px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
     border-bottom: 1px solid #f0e6e0;
   }
 
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 400;
     letter-spacing: .04em;
-    color: var(--text);
   }
 
   .section-link {
     font-size: 11px;
-    letter-spacing: .14em;
+    letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--muted);
-    transition: color .2s;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
   }
-  .section-link:hover { color: var(--rose-dark); }
   .section-link::after { content: '→'; }
 
+  /* Grid: 2 cols mobile → 3 cols tablet → 3 cols desktop */
   .product-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
   .product-card {
     background: var(--white);
     border: 1px solid #f0e6e0;
-    cursor: pointer;
-    transition: transform .25s, box-shadow .25s;
+    border-radius: var(--radius);
     overflow: hidden;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+    -webkit-tap-highlight-color: transparent;
   }
-  .product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(180,120,110,.1);
+  .product-card:active {
+    transform: scale(.97);
   }
 
   .product-img {
@@ -440,221 +406,329 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    font-size: 36px;
     position: relative;
-  }
-
-  .product-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 48px;
-    opacity: .3;
+    overflow: hidden;
   }
 
   .product-badge {
     position: absolute;
-    top: 12px;
-    left: 12px;
+    top: 8px;
+    left: 8px;
     background: var(--rose);
     color: var(--white);
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: .1em;
     text-transform: uppercase;
-    padding: 4px 10px;
+    padding: 3px 8px;
     font-weight: 500;
+    border-radius: 2px;
   }
 
   .product-info {
-    padding: 16px 18px 20px;
+    padding: 12px;
   }
 
   .product-name {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    letter-spacing: .04em;
     color: var(--text);
-    margin-bottom: 6px;
     line-height: 1.4;
+    margin-bottom: 6px;
   }
 
   .product-price {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
+    font-size: 17px;
     color: var(--rose-dark);
     font-weight: 500;
   }
 
   .product-price .from {
     font-family: 'Jost', sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--muted);
     font-weight: 400;
-    margin-right: 4px;
+    display: block;
+    margin-bottom: 1px;
   }
 
   .sold-out {
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
 
-  /* ── FOOTER ── */
+  /* ─── FOOTER ─── */
   footer {
     background: var(--text);
-    color: rgba(255,255,255,.75);
-    padding: 60px;
-    margin-top: 20px;
-  }
-
-  .footer-grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 48px;
+    color: rgba(255,255,255,.7);
+    padding: 40px 20px 28px;
   }
 
   .footer-logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 300;
     color: var(--rose);
     letter-spacing: .06em;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 
   .footer-tagline {
     font-size: 12px;
-    letter-spacing: .08em;
-    color: rgba(255,255,255,.5);
+    color: rgba(255,255,255,.45);
     line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .footer-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 16px;
+    margin-bottom: 32px;
   }
 
   .footer-col h4 {
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: .2em;
     text-transform: uppercase;
     color: var(--rose);
-    margin-bottom: 20px;
+    margin-bottom: 14px;
     font-weight: 500;
   }
 
   .footer-col ul { list-style: none; }
-  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li { margin-bottom: 9px; }
   .footer-col ul li a {
     font-size: 13px;
-    color: rgba(255,255,255,.65);
-    transition: color .2s;
-    letter-spacing: .04em;
+    color: rgba(255,255,255,.6);
+    letter-spacing: .02em;
   }
-  .footer-col ul li a:hover { color: var(--rose); }
 
   .footer-social {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 4px;
+    gap: 10px;
   }
 
   .social-link {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 13px;
-    color: rgba(255,255,255,.65);
-    letter-spacing: .04em;
-    transition: color .2s;
+    font-size: 12px;
+    color: rgba(255,255,255,.6);
   }
-  .social-link:hover { color: var(--rose); }
+
   .social-icon {
-    width: 32px;
-    height: 32px;
+    width: 30px; height: 30px;
     border: 1px solid rgba(255,255,255,.2);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
-  .social-icon svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  .social-icon svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; }
 
   .footer-bottom {
-    max-width: 1200px;
-    margin: 48px auto 0;
-    padding-top: 24px;
     border-top: 1px solid rgba(255,255,255,.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding-top: 20px;
     font-size: 11px;
-    color: rgba(255,255,255,.35);
-    letter-spacing: .06em;
+    color: rgba(255,255,255,.3);
+    letter-spacing: .04em;
+    text-align: center;
+    line-height: 1.8;
   }
 
-  /* ── WHATSAPP FAB ── */
+  /* ─── WHATSAPP FAB ─── */
   .whatsapp-fab {
     position: fixed;
-    bottom: 28px;
-    right: 28px;
-    width: 54px;
-    height: 54px;
+    bottom: 22px;
+    right: 22px;
+    width: 52px; height: 52px;
     background: #25d366;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 20px rgba(37,211,102,.4);
-    cursor: pointer;
-    z-index: 200;
-    transition: transform .2s, box-shadow .2s;
-    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(37,211,102,.4);
+    z-index: 300;
+    transition: transform .2s;
   }
-  .whatsapp-fab:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 28px rgba(37,211,102,.5);
+  .whatsapp-fab:active { transform: scale(.93); }
+  .whatsapp-fab svg { width: 26px; height: 26px; fill: white; }
+
+  /* ════════════════════════════════
+     TABLET  ≥ 600px
+  ════════════════════════════════ */
+  @media (min-width: 600px) {
+
+    .nav-main { padding: 16px 32px; }
+    .nav-logo { font-size: 32px; }
+
+    .mini-banners { padding: 20px 32px; gap: 14px; }
+    .mini-banner-title { font-size: 20px; }
+
+    .search-section { padding: 20px 32px; }
+    .search-row { flex-wrap: nowrap; }
+
+    .products-wrapper { padding: 32px 32px 48px; }
+    .product-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    .hero-slide { min-height: 380px; }
+    .hero-title { font-size: 52px; }
+
+    footer { padding: 52px 32px 32px; }
+    .footer-cols { grid-template-columns: repeat(3, 1fr); }
   }
-  .whatsapp-fab svg { width: 28px; height: 28px; fill: white; }
+
+  /* ════════════════════════════════
+     DESKTOP  ≥ 1024px
+  ════════════════════════════════ */
+  @media (min-width: 1024px) {
+
+    /* Hide hamburger, show desktop nav */
+    .hamburger, .drawer { display: none !important; }
+    .nav-desktop { display: flex; }
+
+    .navbar { }
+
+    .nav-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 60px;
+    }
+
+    .nav-desktop {
+      align-items: center;
+      justify-content: center;
+      border-top: 1px solid #f0e6e0;
+      padding: 0 60px;
+      gap: 0;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-item > a, .nav-item > span {
+      display: block;
+      padding: 13px 18px;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color .2s;
+    }
+    .nav-item:hover > a,
+    .nav-item:hover > span { color: var(--rose-dark); }
+
+    .nav-item > a::after,
+    .nav-item > span::after {
+      content: '';
+      display: block;
+      height: 2px;
+      background: var(--rose);
+      transform: scaleX(0);
+      transition: transform .25s;
+    }
+    .nav-item:hover > a::after,
+    .nav-item:hover > span::after { transform: scaleX(1); }
+
+    .nav-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid #f0e6e0;
+      border-top: 2px solid var(--rose);
+      min-width: 180px;
+      padding: 12px 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,.06);
+      z-index: 50;
+    }
+    .nav-item:hover .nav-dropdown { display: block; }
+    .nav-dropdown a {
+      display: block;
+      padding: 8px 20px;
+      font-size: 12px;
+      letter-spacing: .06em;
+      color: var(--muted);
+      transition: color .2s, padding-left .2s;
+    }
+    .nav-dropdown a:hover { color: var(--rose-dark); padding-left: 26px; }
+
+    .hero-slide { min-height: 460px; }
+    .hero-title { font-size: 64px; }
+    .hero-blob-1 { width: 360px; height: 360px; }
+
+    .mini-banners { max-width: 1200px; margin: 0 auto; padding: 24px 60px; }
+    .search-section { padding: 24px 60px; flex-direction: row; align-items: center; gap: 16px; }
+    .search-label { white-space: nowrap; }
+    .search-row { flex: 1; }
+    .search-select { width: auto; flex: 1; }
+
+    .products-wrapper { max-width: 1200px; margin: 0 auto; padding: 48px 60px 64px; }
+
+    .section-title { font-size: 28px; }
+
+    footer { padding: 60px; }
+    .footer-content { max-width: 1200px; margin: 0 auto; }
+    .footer-cols { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+    .footer-bottom { text-align: left; display: flex; justify-content: space-between; }
+  }
 </style>
 </head>
 <body>
 
 <!-- TOP BAR -->
-<div class="topbar">Frete grátis para pedidos acima de R$ 250 • São Paulo - Zona Norte</div>
+<div class="topbar">Frete grátis para pedidos acima de R$ 250 · São Paulo – Zona Norte</div>
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <div class="nav-top">
-    <div class="nav-icon-btn">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    </div>
-    <a href="#" class="nav-logo-text">Bauni</a>
-    <div class="nav-icons">
-      <a href="#" class="nav-icon-btn">
+
+  <!-- Mobile top row -->
+  <div class="nav-main">
+    <button class="nav-btn hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="#" class="nav-logo">Bauni</a>
+    <div class="nav-actions">
+      <button class="nav-btn" aria-label="Buscar">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="nav-btn" aria-label="Carrinho">
         <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        Carrinho
-      </a>
+      </button>
     </div>
   </div>
 
-  <div class="nav-menu">
-    <div class="nav-item">
-      <span>Bolos ▾</span>
-      <div class="nav-dropdown">
+  <!-- Mobile drawer -->
+  <div class="drawer" id="drawer">
+    <div class="drawer-item">
+      <button class="drawer-toggle" onclick="toggleSub(this)">Bolos
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="drawer-sub">
         <a href="#">BauniCream</a>
         <a href="#">Bolos Decorados</a>
         <a href="#">Bolos Naked</a>
         <a href="#">Ver todos</a>
       </div>
     </div>
-    <div class="nav-item"><a href="#">Crie em Casa</a></div>
-    <div class="nav-item"><a href="#">Cursos</a></div>
-    <div class="nav-item">
-      <span>Doces ▾</span>
-      <div class="nav-dropdown">
+    <div class="drawer-item">
+      <button class="drawer-toggle" onclick="toggleSub(this)">Doces
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="drawer-sub">
         <a href="#">Brigadeiros</a>
         <a href="#">Brownies</a>
         <a href="#">Cookies Recheados</a>
@@ -663,19 +737,21 @@
         <a href="#">Pão de Mel</a>
       </div>
     </div>
-    <div class="nav-item">
-      <span>Páscoa ▾</span>
-      <div class="nav-dropdown">
+    <div class="drawer-item">
+      <button class="drawer-toggle" onclick="toggleSub(this)">Páscoa
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="drawer-sub">
         <a href="#">Ovos de Colher</a>
         <a href="#">Ovos na Lata</a>
         <a href="#">Sobremesas</a>
       </div>
     </div>
-    <div class="nav-item"><a href="#">Presenteáveis</a></div>
-    <div class="nav-item"><a href="#">Sobremesas</a></div>
-    <div class="nav-item">
-      <span>Produtos de Festa ▾</span>
-      <div class="nav-dropdown">
+    <div class="drawer-item">
+      <button class="drawer-toggle" onclick="toggleSub(this)">Produtos de Festa
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="drawer-sub">
         <a href="#">Acessórios</a>
         <a href="#">Coleções</a>
         <a href="#">Decorações</a>
@@ -683,15 +759,66 @@
         <a href="#">Velas</a>
       </div>
     </div>
+    <div class="drawer-item"><button class="drawer-toggle" style="justify-content:flex-start">Crie em Casa</button></div>
+    <div class="drawer-item"><button class="drawer-toggle" style="justify-content:flex-start">Cursos</button></div>
+    <div class="drawer-item"><button class="drawer-toggle" style="justify-content:flex-start">Presenteáveis</button></div>
+    <div class="drawer-item"><button class="drawer-toggle" style="justify-content:flex-start">Sobremesas</button></div>
   </div>
+
+  <!-- Desktop nav -->
+  <div class="nav-top-row" style="display:none" id="desktopTopRow">
+    <div style="width:40px"></div>
+    <a href="#" class="nav-logo" style="font-size:32px">Bauni</a>
+    <div class="nav-actions">
+      <button class="nav-btn">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+      <button class="nav-btn">
+        <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Carrinho
+      </button>
+    </div>
+  </div>
+
+  <div class="nav-desktop" id="navDesktop">
+    <div class="nav-item">
+      <span>Bolos ▾</span>
+      <div class="nav-dropdown">
+        <a href="#">BauniCream</a><a href="#">Bolos Decorados</a><a href="#">Bolos Naked</a><a href="#">Ver todos</a>
+      </div>
+    </div>
+    <div class="nav-item"><a href="#">Crie em Casa</a></div>
+    <div class="nav-item"><a href="#">Cursos</a></div>
+    <div class="nav-item">
+      <span>Doces ▾</span>
+      <div class="nav-dropdown">
+        <a href="#">Brigadeiros</a><a href="#">Brownies</a><a href="#">Cookies Recheados</a><a href="#">Cupcakes</a><a href="#">Pão de Mel</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span>Páscoa ▾</span>
+      <div class="nav-dropdown">
+        <a href="#">Ovos de Colher</a><a href="#">Ovos na Lata</a><a href="#">Sobremesas</a>
+      </div>
+    </div>
+    <div class="nav-item"><a href="#">Presenteáveis</a></div>
+    <div class="nav-item"><a href="#">Sobremesas</a></div>
+    <div class="nav-item">
+      <span>Produtos de Festa ▾</span>
+      <div class="nav-dropdown">
+        <a href="#">Acessórios</a><a href="#">Coleções</a><a href="#">Decorações</a><a href="#">Utilidades</a><a href="#">Velas</a>
+      </div>
+    </div>
+  </div>
+
 </nav>
 
-<!-- HERO CAROUSEL -->
-<section class="hero">
-  <div class="hero-slides" id="heroSlides">
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-track" id="heroTrack">
     <div class="hero-slide">
-      <div class="hero-deco hero-deco-1"></div>
-      <div class="hero-deco hero-deco-2"></div>
+      <div class="hero-blob hero-blob-1"></div>
+      <div class="hero-blob hero-blob-2"></div>
       <div class="hero-content">
         <div class="hero-tag">Confeitaria Artesanal</div>
         <h1 class="hero-title">Feito com <em>amor</em><br>e muito açúcar</h1>
@@ -713,13 +840,7 @@
       </div>
     </div>
   </div>
-  <button class="hero-arrow prev" onclick="slide(-1)">
-    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-  </button>
-  <button class="hero-arrow next" onclick="slide(1)">
-    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-  </button>
-  <div class="hero-nav">
+  <div class="hero-dots">
     <button class="hero-dot active" onclick="goTo(0)"></button>
     <button class="hero-dot" onclick="goTo(1)"></button>
     <button class="hero-dot" onclick="goTo(2)"></button>
@@ -729,40 +850,33 @@
 <!-- MINI BANNERS -->
 <div class="mini-banners">
   <div class="mini-banner">
-    <div class="mini-banner-content">
-      <div class="mini-banner-label">Bolos Decorados</div>
-      <div class="mini-banner-sub">Peças únicas para sua festa</div>
-    </div>
+    <div class="mini-banner-title">Bolos Decorados</div>
+    <div class="mini-banner-sub">Peças únicas para sua festa</div>
   </div>
   <div class="mini-banner">
-    <div class="mini-banner-content">
-      <div class="mini-banner-label">Coleção Páscoa</div>
-      <div class="mini-banner-sub">Ovos artesanais & sobremesas</div>
-    </div>
+    <div class="mini-banner-title">Coleção Páscoa</div>
+    <div class="mini-banner-sub">Ovos artesanais & sobremesas</div>
   </div>
 </div>
 
 <!-- SEARCH -->
 <div class="search-section">
   <span class="search-label">Encontre um produto:</span>
-  <input class="search-input" type="text" placeholder="Buscar...">
+  <div class="search-row">
+    <input class="search-input" type="text" placeholder="Buscar...">
+    <button class="search-btn">Buscar</button>
+  </div>
   <select class="search-select">
     <option>Selecione uma categoria</option>
-    <option>Bolos</option>
-    <option>Doces</option>
-    <option>Páscoa</option>
-    <option>Presenteáveis</option>
-    <option>Sobremesas</option>
-    <option>Decorações</option>
-    <option>Velas</option>
+    <option>Bolos</option><option>Doces</option><option>Páscoa</option>
+    <option>Presenteáveis</option><option>Sobremesas</option>
+    <option>Decorações</option><option>Velas</option>
   </select>
-  <button class="search-btn">Buscar</button>
 </div>
 
 <!-- PRODUCTS -->
 <div class="products-wrapper">
 
-  <!-- Doces -->
   <div class="product-section">
     <div class="section-header">
       <h2 class="section-title">Doces</h2>
@@ -770,21 +884,21 @@
     </div>
     <div class="product-grid">
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🍪</div></div>
+        <div class="product-img">🍪</div>
         <div class="product-info">
           <div class="product-name">Caixa Cookie Nutella (6un.)</div>
           <div class="product-price">R$ 130,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🍪</div></div>
+        <div class="product-img">🍪</div>
         <div class="product-info">
           <div class="product-name">12 unidades</div>
           <div class="product-price">R$ 165,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🍪</div></div>
+        <div class="product-img">🍪</div>
         <div class="product-info">
           <div class="product-name">Caixa Cookie Choc Chip (6un.)</div>
           <div class="product-price">R$ 119,00</div>
@@ -793,7 +907,6 @@
     </div>
   </div>
 
-  <!-- Páscoa -->
   <div class="product-section">
     <div class="section-header">
       <h2 class="section-title">Páscoa</h2>
@@ -801,21 +914,21 @@
     </div>
     <div class="product-grid">
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🥚</div></div>
+        <div class="product-img">🥚</div>
         <div class="product-info">
           <div class="product-name">Brownie com Nutella</div>
           <div class="product-price"><span class="from">A partir de</span>R$ 105,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🎂</div></div>
+        <div class="product-img">🎂</div>
         <div class="product-info">
           <div class="product-name">Bolo Gelado de Coco com Abacaxi</div>
           <div class="product-price">R$ 145,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🍫</div></div>
+        <div class="product-img">🍫</div>
         <div class="product-info">
           <div class="product-name">Lotus Delirium</div>
           <div class="product-price">R$ 105,00</div>
@@ -824,7 +937,6 @@
     </div>
   </div>
 
-  <!-- Bolos -->
   <div class="product-section">
     <div class="section-header">
       <h2 class="section-title">Bolos</h2>
@@ -832,21 +944,21 @@
     </div>
     <div class="product-grid">
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🎂</div><span class="product-badge">Novo</span></div>
+        <div class="product-img">🎂<span class="product-badge">Novo</span></div>
         <div class="product-info">
           <div class="product-name">Pink Laces Cake</div>
           <div class="product-price"><span class="from">A partir de</span>R$ 225,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🎂</div></div>
+        <div class="product-img">🎂</div>
         <div class="product-info">
           <div class="product-name">Harry's Cake</div>
           <div class="product-price"><span class="from">A partir de</span>R$ 175,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🎂</div></div>
+        <div class="product-img">🎂</div>
         <div class="product-info">
           <div class="product-name">Xoxo</div>
           <div class="product-price"><span class="from">A partir de</span>R$ 335,00</div>
@@ -855,7 +967,6 @@
     </div>
   </div>
 
-  <!-- Sobremesas -->
   <div class="product-section">
     <div class="section-header">
       <h2 class="section-title">Sobremesas</h2>
@@ -863,21 +974,21 @@
     </div>
     <div class="product-grid">
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🍮</div></div>
+        <div class="product-img">🍮</div>
         <div class="product-info">
           <div class="product-name">Guirlanda de Brownie (1kg)</div>
           <div class="product-price">R$ 195,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🍮</div></div>
+        <div class="product-img">🍮</div>
         <div class="product-info">
           <div class="product-name">Torta Café, Caramelo e Laranja (1kg)</div>
           <div class="product-price">R$ 215,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🍇</div></div>
+        <div class="product-img">🍇</div>
         <div class="product-info">
           <div class="product-name">Bombom de Uva Verde na Travessa 2kg</div>
           <div class="product-price">R$ 215,00</div>
@@ -886,7 +997,6 @@
     </div>
   </div>
 
-  <!-- Presenteáveis -->
   <div class="product-section">
     <div class="section-header">
       <h2 class="section-title">Presenteáveis</h2>
@@ -894,21 +1004,21 @@
     </div>
     <div class="product-grid">
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🎁</div><span class="product-badge">Destaque</span></div>
+        <div class="product-img">🎁<span class="product-badge">Destaque</span></div>
         <div class="product-info">
           <div class="product-name">Flowers & Cookies</div>
           <div class="product-price">R$ 310,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🎁</div></div>
+        <div class="product-img">🎁</div>
         <div class="product-info">
           <div class="product-name">Flowers & Cake</div>
           <div class="product-price">R$ 315,00</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🎁</div></div>
+        <div class="product-img">🎁</div>
         <div class="product-info">
           <div class="product-name">Birthday Girl Gift Box</div>
           <div class="product-price">R$ 199,90</div>
@@ -917,7 +1027,6 @@
     </div>
   </div>
 
-  <!-- Velas -->
   <div class="product-section">
     <div class="section-header">
       <h2 class="section-title">Velas</h2>
@@ -925,24 +1034,24 @@
     </div>
     <div class="product-grid">
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🕯️</div></div>
+        <div class="product-img">🕯️</div>
         <div class="product-info">
-          <div class="product-name">Vela Formato Morango (5 unidades)</div>
+          <div class="product-name">Vela Formato Morango (5un.)</div>
           <div class="product-price">R$ 30,90</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🕯️</div></div>
+        <div class="product-img">🕯️</div>
         <div class="product-info">
-          <div class="product-name">Vela Margarida (5 unidades)</div>
+          <div class="product-name">Vela Margarida (5un.)</div>
           <div class="product-price">R$ 25,90</div>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-img"><div class="product-placeholder">🕯️</div></div>
+        <div class="product-img">🕯️</div>
         <div class="product-info">
           <div class="sold-out">Indisponível</div>
-          <div class="product-name">Vela Espiral Candy Sortida (3 unidades)</div>
+          <div class="product-name">Vela Espiral Candy Sortida (3un.)</div>
           <div class="product-price">R$ 13,90</div>
         </div>
       </div>
@@ -953,81 +1062,105 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo">Bauni</div>
-      <p class="footer-tagline">Confeitaria artesanal em São Paulo – Zona Norte.<br>Feito com amor, entregue com carinho.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Contatos</h4>
-      <ul>
-        <li><a href="mailto:bauni@bauniconfeitaria.com.br">bauni@bauniconfeitaria.com.br</a></li>
-        <li><a href="tel:5511917998781">(11) 91799-8781</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Links</h4>
-      <ul>
-        <li><a href="#">Quem Somos</a></li>
-        <li><a href="#">Políticas de Privacidade</a></li>
-        <li><a href="#">Termos de Uso</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Redes Sociais</h4>
-      <div class="footer-social">
-        <a href="https://www.instagram.com/bauniconfeitaria/" class="social-link">
-          <div class="social-icon">
-            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-          </div>
-          @bauniconfeitaria
-        </a>
-        <a href="https://www.tiktok.com/@bauniconfeitaria_" class="social-link">
-          <div class="social-icon">
-            <svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
-          </div>
-          @bauniconfeitaria_
-        </a>
+  <div class="footer-content">
+    <div class="footer-logo">Bauni</div>
+    <p class="footer-tagline">Confeitaria artesanal em São Paulo – Zona Norte.<br>Feito com amor, entregue com carinho.</p>
+
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Contatos</h4>
+        <ul>
+          <li><a href="mailto:bauni@bauniconfeitaria.com.br">bauni@bauniconfeitaria.com.br</a></li>
+          <li><a href="tel:5511917998781">(11) 91799-8781</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#">Quem Somos</a></li>
+          <li><a href="#">Privacidade</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+        </ul>
+      </div>
+      <div class="footer-col" style="grid-column: 1/-1">
+        <h4>Redes Sociais</h4>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/bauniconfeitaria/" class="social-link">
+            <div class="social-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </div>
+            @bauniconfeitaria
+          </a>
+          <a href="https://www.tiktok.com/@bauniconfeitaria_" class="social-link">
+            <div class="social-icon">
+              <svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+            </div>
+            @bauniconfeitaria_
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <span>Copyright © 2023–2026 Bauni. Todos os direitos reservados.</span>
-    <span>Desenvolvido com ♡</span>
+
+    <div class="footer-bottom">
+      <span>Copyright © 2023–2026 Bauni. Todos os direitos reservados.</span>
+      <span>Desenvolvido com ♡</span>
+    </div>
   </div>
 </footer>
 
 <!-- WHATSAPP FAB -->
-<a href="https://wa.me/5511917998781" class="whatsapp-fab" target="_blank" title="Fale com a Bauni">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-    <path d="M12.004 2.003A9.997 9.997 0 0 0 2.007 12c0 1.762.459 3.418 1.261 4.861L2 22l5.283-1.381A9.966 9.966 0 0 0 12.004 22C17.524 22 22 17.523 22 12S17.524 2.003 12.004 2.003zm0 18.18a8.16 8.16 0 0 1-4.168-1.142l-.299-.177-3.136.82.836-3.053-.194-.313a8.168 8.168 0 0 1-1.257-4.315c0-4.512 3.671-8.183 8.183-8.183 4.512 0 8.183 3.671 8.183 8.183S16.516 20.183 12.004 20.183z"/>
-  </svg>
+<a href="https://wa.me/5511917998781" class="whatsapp-fab" target="_blank" aria-label="Fale com a Bauni">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.004 2.003A9.997 9.997 0 0 0 2.007 12c0 1.762.459 3.418 1.261 4.861L2 22l5.283-1.381A9.966 9.966 0 0 0 12.004 22C17.524 22 22 17.523 22 12S17.524 2.003 12.004 2.003zm0 18.18a8.16 8.16 0 0 1-4.168-1.142l-.299-.177-3.136.82.836-3.053-.194-.313a8.168 8.168 0 0 1-1.257-4.315c0-4.512 3.671-8.183 8.183-8.183 4.512 0 8.183 3.671 8.183 8.183S16.516 20.183 12.004 20.183z"/></svg>
 </a>
 
 <script>
+  // ── CAROUSEL ──
   let current = 0;
-  const slides = document.getElementById('heroSlides');
+  const track = document.getElementById('heroTrack');
   const dots = document.querySelectorAll('.hero-dot');
   const total = 3;
 
   function updateCarousel() {
-    slides.style.transform = `translateX(-${current * 100}%)`;
+    track.style.transform = `translateX(-${current * 100}%)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
   }
 
-  function slide(dir) {
-    current = (current + dir + total) % total;
-    updateCarousel();
+  function goTo(n) { current = n; updateCarousel(); }
+  setInterval(() => { current = (current + 1) % total; updateCarousel(); }, 4000);
+
+  // Touch swipe
+  let touchX = 0;
+  const hero = document.getElementById('hero');
+  hero.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+  hero.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) { current = (current + (dx < 0 ? 1 : -1) + total) % total; updateCarousel(); }
+  });
+
+  // ── HAMBURGER ──
+  function toggleDrawer() {
+    const btn = document.getElementById('hamburger');
+    const drawer = document.getElementById('drawer');
+    btn.classList.toggle('open');
+    drawer.classList.toggle('open');
   }
 
-  function goTo(n) {
-    current = n;
-    updateCarousel();
+  // ── SUB-MENUS ──
+  function toggleSub(btn) {
+    const sub = btn.nextElementSibling;
+    if (!sub) return;
+    btn.classList.toggle('open');
+    sub.classList.toggle('open');
   }
 
-  // Auto-advance
-  setInterval(() => slide(1), 4000);
+  // ── DESKTOP NAV VISIBILITY ──
+  function checkDesktop() {
+    const isDesktop = window.innerWidth >= 1024;
+    document.getElementById('desktopTopRow').style.display = isDesktop ? 'flex' : 'none';
+    document.querySelector('.nav-main').style.display = isDesktop ? 'none' : 'flex';
+  }
+  checkDesktop();
+  window.addEventListener('resize', checkDesktop);
 </script>
 </body>
 </html>
