@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Blueprint — Natalia</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F2EC;
+    --blush: #E8C9B8;
+    --rose: #C4846A;
+    --deep: #3B2A24;
+    --warm: #8C5E4A;
+    --soft: #F0E6DC;
+    --accent: #D4A574;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--deep);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,132,106,0.15) 0%, transparent 70%);
+    top: -100px; right: -100px;
+  }
+
+  .cover::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,165,116,0.1) 0%, transparent 70%);
+    bottom: -50px; left: -50px;
+  }
+
+  .cover-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+
+  .cover h1 em {
+    font-style: italic;
+    color: var(--blush);
+  }
+
+  .cover-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--blush);
+    margin-top: 24px;
+    opacity: 0.8;
+  }
+
+  .cover-line {
+    width: 60px;
+    height: 1px;
+    background: var(--rose);
+    margin: 32px auto;
+  }
+
+  .cover-name {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(247,242,236,0.4);
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 80px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 32px;
+    color: var(--deep);
+  }
+
+  .section h2 em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--blush);
+    margin: 0;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 48px;
+    margin: 48px 0;
+    position: relative;
+  }
+
+  .highlight::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 120px;
+    color: var(--rose);
+    opacity: 0.3;
+    position: absolute;
+    top: -20px;
+    left: 32px;
+    line-height: 1;
+  }
+
+  .highlight p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.4;
+    position: relative;
+    z-index: 1;
+  }
+
+  .highlight .attr {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 16px;
+    font-style: normal;
+    display: block;
+  }
+
+  /* PILLARS GRID */
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 48px 0;
+    background: var(--blush);
+  }
+
+  .pillar {
+    background: var(--cream);
+    padding: 40px 32px;
+  }
+
+  .pillar-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--blush);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .pillar h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 12px;
+    color: var(--deep);
+  }
+
+  .pillar p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--warm);
+  }
+
+  /* ARCHETYPE */
+  .archetype-block {
+    background: var(--soft);
+    border-left: 3px solid var(--rose);
+    padding: 40px;
+    margin: 48px 0;
+  }
+
+  .archetype-block h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+
+  /* TAGS */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 24px 0;
+  }
+
+  .tag {
+    border: 1px solid var(--rose);
+    color: var(--rose);
+    padding: 6px 18px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* NAMING */
+  .names-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--blush);
+    margin: 32px 0;
+  }
+
+  .name-card {
+    background: var(--cream);
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .name-card .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--deep);
+    margin-bottom: 8px;
+  }
+
+  .name-card .name-meaning {
+    font-size: 12px;
+    color: var(--warm);
+    line-height: 1.5;
+  }
+
+  /* NEXT STEPS */
+  .steps {
+    counter-reset: step;
+    margin: 32px 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--soft);
+    align-items: flex-start;
+  }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: var(--blush);
+    line-height: 1;
+    min-width: 40px;
+  }
+
+  .step-content h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  .step-content p {
+    font-size: 14px;
+    color: var(--warm);
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--deep);
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  .footer p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--blush);
+    margin-bottom: 24px;
+  }
+
+  .footer small {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(247,242,236,0.3);
+  }
+
+  @media (max-width: 600px) {
+    .pillars { grid-template-columns: 1fr; }
+    .names-grid { grid-template-columns: 1fr; }
+    .highlight { padding: 32px 24px; }
+    .section { padding: 60px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <span class="cover-label">Brand Blueprint</span>
+  <h1>O Bolo<br><em>dos Sonhos</em></h1>
+  <div class="cover-line"></div>
+  <p class="cover-sub">Uma marca construída para Natalia</p>
+  <p class="cover-name" style="margin-top: 40px">Confeitaria Artesanal · 2024</p>
+</div>
+
+<!-- ORIGEM -->
+<div class="section">
+  <span class="section-label">01 — Origem</span>
+  <h2>Nasceu de <em>amor,</em><br>não de negócio</h2>
+  <p>Tudo começou com uma recusa simples e poderosa: Natalia não queria pagar por um bolo para o mesversário da filha — mas também não abria mão do bonito. Então ela fez. E quando viu aquela primeira massa sair do forno, sentiu algo que nenhum elogio externo poderia substituir: a satisfação de ter criado.</p>
+  <br>
+  <p>Essa origem importa. Ela define tudo o que a marca é — feita com intenção, com cuidado, por amor. Não por volume. Não por produção em massa. Por significado.</p>
+</div>
+
+<hr class="divider">
+
+<!-- PROPÓSITO -->
+<div class="section">
+  <span class="section-label">02 — Propósito</span>
+  <h2>O que você<br>realmente <em>vende</em></h2>
+
+  <div class="highlight">
+    <p>Natalia não vende bolo. Ela vende o momento em que alguém abre a caixa e fala: <strong>"UAU."</strong></p>
+    <span class="attr">— A promessa da marca</span>
+  </div>
+
+  <p>Cada bolo é o ponto alto de uma celebração. A <em>cherry on top</em>. O detalhe que transforma uma festa comum em uma memória afetiva. Quem compra não está comprando açúcar e farinha — está comprando a sensação de que aquela pessoa, aquele momento, valeu cada detalhe.</p>
+</div>
+
+<hr class="divider">
+
+<!-- PÚBLICO -->
+<div class="section">
+  <span class="section-label">03 — Público</span>
+  <h2>Para quem<br>você <em>existe</em></h2>
+
+  <p>Sua cliente não vê o bolo como "mais um item da festa". Ela é a pessoa que faz questão de que cada detalhe da celebração seja especial. Que celebra com intenção. Que valoriza a união, o afeto e os momentos compartilhados.</p>
+
+  <br>
+
+  <div class="tags">
+    <span class="tag">Celebra com cuidado</span>
+    <span class="tag">Valoriza o artesanal</span>
+    <span class="tag">Emotiva e afetiva</span>
+    <span class="tag">Não barganha beleza</span>
+    <span class="tag">Quer ser surpreendida</span>
+    <span class="tag">Gosta de compartilhar</span>
+  </div>
+
+  <br>
+  <p><strong>O que ela quer sentir:</strong> Que escolheu certo. Que o bolo vai impressionar. Que a pessoa que vai receber vai se sentir amada.</p>
+  <br>
+  <p><strong>O que ela teme:</strong> Pagar e se decepcionar. Receber algo genérico. Que o bolo não corresponda ao que imaginou.</p>
+</div>
+
+<hr class="divider">
+
+<!-- PERSONALIDADE -->
+<div class="section">
+  <span class="section-label">04 — Personalidade</span>
+  <h2>Quem é<br>essa <em>marca</em></h2>
+
+  <p>Se a marca fosse uma pessoa, ela chegaria numa festa e o ambiente mudaria. Não pela barulho — mas pela presença. Estilosa, autêntica, alegre. As pessoas gravitam em torno dela naturalmente.</p>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-num">01</div>
+      <h3>Autêntica</h3>
+      <p>Não segue tendência por seguir. Tem ponto de vista próprio. Faz o que acredita, com técnica e personalidade.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">02</div>
+      <h3>Calorosa</h3>
+      <p>Cada bolo carrega a energia de quem fez com amor. O cliente sente isso — na atenção, no acabamento, no atendimento.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">03</div>
+      <h3>Artística</h3>
+      <p>Decorar é o momento favorito. A marca vive na estética — vintage, flores, bico, detalhes que ninguém ignora.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">04</div>
+      <h3>Confiante</h3>
+      <p>Sabe o que vale. Não compete por preço — compete por significado. E quem entende, não questiona.</p>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Artística</span>
+    <span class="tag">Calorosa</span>
+    <span class="tag">Autêntica</span>
+    <span class="tag">Elegante</span>
+    <span class="tag">Afetiva</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ARQUÉTIPO -->
+<div class="section">
+  <span class="section-label">05 — Arquétipo</span>
+  <h2>A alma<br>da <em>marca</em></h2>
+
+  <div class="archetype-block">
+    <h3>A Criadora + A Amante</h3>
+    <p style="margin-top: 12px; font-size: 15px;">Sua marca vive na interseção de dois arquétipos poderosos. <strong>A Criadora</strong> — que existe para dar forma ao que imagina, que sente prazer no processo criativo, que não descansa enquanto o resultado não corresponde à visão. E <strong>A Amante</strong> — que cria conexão emocional profunda, que celebra o belo, que faz o cliente sentir que foi cuidado com atenção singular.</p>
+    <br>
+    <p style="font-size: 15px;">Juntos, esses arquétipos dizem: <em>"Eu faço com arte. E faço pra você."</em></p>
+  </div>
+
+  <p><strong>Referências que confirmam isso:</strong> Apple (Criadora — faz produtos que parecem arte, cria pertencimento), Calebito (Amante — experiência sensorial completa, o cheiro que chama, a embalagem que já é parte do produto).</p>
+</div>
+
+<hr class="divider">
+
+<!-- POSICIONAMENTO -->
+<div class="section">
+  <span class="section-label">06 — Posicionamento</span>
+  <h2>A palavra<br>que você <em>possui</em></h2>
+
+  <div class="highlight">
+    <p>A palavra da sua marca é: <strong>SONHO.</strong></p>
+    <span class="attr">— "Ela faz o bolo dos seus sonhos."</span>
+  </div>
+
+  <p>Não "gostoso". Não "bonito". Não "caprichado". <strong>Sonho.</strong> Porque o sonho encapsula tudo — a estética que você imaginou, o sabor que surpreende, o UAU ao abrir a caixa, o momento que ficará na memória.</p>
+  <br>
+  <p>Enquanto concorrentes competem por preço ou por velocidade de entrega, você compete por uma coisa que não tem substituto: <em>fazer exatamente o que a pessoa sonhou.</em></p>
+</div>
+
+<hr class="divider">
+
+<!-- NAMING -->
+<div class="section">
+  <span class="section-label">07 — Naming</span>
+  <h2>Direção<br>para o <em>nome</em></h2>
+
+  <p>Cakebrownie já cumpriu seu papel — foi o nome do começo. Mas a marca que você quer construir precisa de um nome com mais presença. Simples, sonoro, fácil de falar e lembrar — como Apple, como Calebito.</p>
+  <br>
+  <p>Critérios para o novo nome:</p>
+  <br>
+  <div class="tags">
+    <span class="tag">1–2 sílabas</span>
+    <span class="tag">Fácil de falar</span>
+    <span class="tag">Evoca afeto ou beleza</span>
+    <span class="tag">Único no mercado</span>
+    <span class="tag">Soa bem em português</span>
+  </div>
+
+  <br>
+  <p>Algumas <strong>direções de exploração</strong> para inspirar a busca:</p>
+
+  <div class="names-grid">
+    <div class="name-card">
+      <div class="name">Nata</div>
+      <div class="name-meaning">Simples, seu nome dentro. Evoca nata — o creme, o melhor de algo. Premium e íntimo.</div>
+    </div>
+    <div class="name-card">
+      <div class="name">Beló</div>
+      <div class="name-meaning">Belo + afeto. Sonoro, alegre, diferente. Fácil de falar e de lembrar.</div>
+    </div>
+    <div class="name-card">
+      <div class="name">Miga</div>
+      <div class="name-meaning">Gíria de amiga + migalha. Próximo, carinhoso, moderno. Quebra o padrão do setor.</div>
+    </div>
+    <div class="name-card">
+      <div class="name">Flour</div>
+      <div class="name-meaning">Farinha em inglês. Evoca origem, artesanal. Limpo, memorável, soa sofisticado.</div>
+    </div>
+    <div class="name-card">
+      <div class="name">Laço</div>
+      <div class="name-meaning">União, presente, detalhe de acabamento. Conecta afeto e estética ao mesmo tempo.</div>
+    </div>
+    <div class="name-card">
+      <div class="name">Doci</div>
+      <div class="name-meaning">Doce de forma nova. Curto, feminino, fácil de digitar e encontrar nas redes.</div>
+    </div>
+  </div>
+
+  <p style="font-size: 13px; color: var(--warm);">* Estas são direções criativas para exploração. O nome final deve ser pesquisado para garantir disponibilidade nas redes sociais e no registro de marca.</p>
+</div>
+
+<hr class="divider">
+
+<!-- PRÓXIMOS PASSOS -->
+<div class="section">
+  <span class="section-label">08 — Próximos Passos</span>
+  <h2>O que<br>fazer <em>agora</em></h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Escolher o nome</h4>
+        <p>Explorar as direções, testar com pessoas próximas, verificar disponibilidade no Instagram e no INPI.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Definir a identidade visual</h4>
+        <p>Paleta (tons quentes, vintage, cream), tipografia, logo. Tudo inspirado na estética dos bolos que te param o scroll.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Reativar o Instagram com estratégia</h4>
+        <p>Bio clara com a promessa. Destaques organizados. Padrão visual consistente. Conteúdo que vai além do produto.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Criar conteúdo com personalidade</h4>
+        <p>Mostrar o processo, a Natalia por trás dos bolos, os momentos de celebração dos clientes. A marca é você.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Comunicar valor antes do preço</h4>
+        <p>Quando o perfil comunicar bem, o cliente chegará já convencido. A pergunta será "tem data?" — não "quanto custa?".</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>"Ela faz o bolo dos seus sonhos."</p>
+  <small>Brand Blueprint · Natalia · 2024</small>
+</div>
+
+</body>
+</html>
